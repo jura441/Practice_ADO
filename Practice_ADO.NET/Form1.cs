@@ -65,10 +65,10 @@ namespace Practice_ADO.NET
             if(tabControl1.SelectedTab == tabPage1)
             {
                 int lastid = 1;
-                if (dataGridView1.Rows.Count > 1)
+                if (dataSetCategory.Tables[0].Rows.Count > 1)
                 {
                     ts_status.Text = dataGridView1.Rows.Count.ToString();
-                    lastid = (int)dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[1].Value;
+                    lastid = (int)dataSetCategory.Tables[0].Rows[dataSetCategory.Tables[0].Rows.Count - 1][0] + 1;
                 }
                 AddCategory ac = new AddCategory(lastid);
                 if (ac.ShowDialog() == DialogResult.OK)
