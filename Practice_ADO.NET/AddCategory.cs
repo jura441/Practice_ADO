@@ -35,5 +35,17 @@ namespace Practice_ADO.NET
         {
             tb_id.Text = lastid.ToString();
         }
+
+        private void tb_id_TextChanged(object sender, EventArgs e)
+        {
+            if (tb_id.Text.Length >0)
+            {
+                if(!Char.IsDigit(tb_id.Text[0]))
+                {
+                    tb_id.Text.Remove(tb_id.Text.Length - 1);
+                    tb_id.Focus();
+                }
+            }
+        }
     }
 }
