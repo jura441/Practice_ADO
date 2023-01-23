@@ -22,7 +22,7 @@ namespace Practice_ADO.NET
         SqlDataReader reader = null;
         DataSet dataSetGoods = new DataSet();
         DataSet dataSetCategory = new DataSet();
-        
+
 
         public Form1()
         {
@@ -51,7 +51,7 @@ namespace Practice_ADO.NET
             finally
             {
                 ts_status.Text = "All data read success";
-               
+
             }
         }
 
@@ -62,27 +62,45 @@ namespace Practice_ADO.NET
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(tabControl1.SelectedTab == tabPage1)
+            try
             {
-                int lastid = 1;
-                if (dataSetGoods.Tables[0].Rows.Count > 0)
+                if (tabControl1.SelectedTab == tabPage1)
                 {
-                    lastid = (int)dataSetGoods.Tables[0].Rows[dataSetCategory.Tables[0].Rows.Count - 1][0] + 1;
+                    int lastid = 1;
+                    if (dataSetCategory.Tables[0].Rows.Count > 0)
+                    {
+                        lastid = (int)dataSetCategory.Tables[0].Rows[dataSetCategory.Tables[0].Rows.Count - 1][0] + 1;
+                    }
+                    AddCategory ac = new AddCategory(lastid);
+                    if (ac.ShowDialog() == DialogResult.OK)
+                    {
+                        dataSetCategory.Tables[0].Rows.Add(Int32.Parse(ac.tb_id.Text), ac.tb_name.Text);
+                    }
+                    ac.Dispose();
                 }
-                AddGoods ac = new AddGoods(lastid);
-                if (ac.ShowDialog() == DialogResult.OK)
+                else if (tabControl1.SelectedTab == tabPage2)
                 {
-                    dataSetCategory.Tables[0].Rows.Add(Int32.Parse(ac.tb_id.Text), ac.tb_name.Text);
+                    int lastid = 1;
+                    if (dataSetGoods.Tables[0].Rows.Count > 0)
+                    {
+                        lastid = (int)dataSetGoods.Tables[0].Rows[dataSetGoods.Tables[0].Rows.Count - 1][0] + 1;
+                    }
+                    AddGoods ag = new AddGoods(lastid);
+                    if (ag.ShowDialog() == DialogResult.OK)
+                    {
+                        dataSetGoods.Tables[0].Rows.Add(Int32.Parse(ag.l_id.Text), ag.l_name.Text, Int32.Parse(ag.l_cat_id.Text), Int32.Parse(ag.l_price.Text), Int32.Parse(ag.l_count.Text));
+                    }
+                    ag.Dispose();
                 }
-                ac.Dispose();
             }
-            else if (tabControl1.SelectedTab == tabPage2)
-            {
 
+            catch (Exception ex)
+            {
+                ts_status.Text = ex.Message;
             }
         }
 
-        private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
+    private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedTab == tabPage1 && dataGridView1.SelectedRows.Count >0)
             {
@@ -96,6 +114,15 @@ namespace Practice_ADO.NET
             }
             else if (tabControl1.SelectedTab == tabPage2)
             {
+                DataRow editRow = dataSetGoods.Tables[0].Rows[dataGridView2.SelectedRows[0].Index];
+                EditGoods eg = new EditGoods((int)editRow[0], (string)editRow[1], (int)editRow[2], (int)editRow[3], (int)editRow[4]);
+                if (eg.ShowDialog() == DialogResult.OK)
+                {
+                    dataSetGoods.Tables[0].Rows[dataGridView2.SelectedRows[0].Index].SetField(0, Int32.Parse(eg.tb_id.Text));
+                    dataSetGoods.Tables[0].Rows[dataGridView2.SelectedRows[0].Index].SetField(1, eg.tb_name.Text);
+                    dataSetGoods.Tables[0].Rows[dataGridView2.SelectedRows[0].Index].SetField(0, Int32.Parse(eg.tb_cat_id.Text));
+                    dataSetGoods.Tables[0].Rows[dataGridView2.SelectedRows[0].Index].SetField(0, Int32.Parse(eg.tb_count.Text));
+                }
 
             }
         }

@@ -17,11 +17,11 @@ namespace Practice_ADO.NET
         int _category_id;
         int _price;
         int _count;
-        public EditGoods(int id, string _name, int category_id, int price, int count)
+        public EditGoods(int id, string name, int category_id, int price, int count)
         {
             InitializeComponent();
             _id = id;
-            _name = _name;
+            _name = name;
             _category_id = category_id;
             _price = price;
             _count = count;
@@ -34,6 +34,18 @@ namespace Practice_ADO.NET
             tb_cat_id.Text = _category_id.ToString();
             tb_price.Text = _price.ToString();
             tb_count.Text = _count.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

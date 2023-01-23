@@ -12,7 +12,6 @@ namespace Practice_ADO.NET
 {
     public partial class EditCategory : Form
     {
-
         int _id;
         string _name;  //
         public EditCategory(int id, string name)
@@ -21,6 +20,7 @@ namespace Practice_ADO.NET
             _name = name;  //
             InitializeComponent();
         }
+
         private void EditCategory_Load(object sender, EventArgs e)
         {
             tb_id.Text = _id.ToString();
@@ -31,15 +31,12 @@ namespace Practice_ADO.NET
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void EditCategory_Load_1(object sender, EventArgs e)
-        {
-
-        }
     }
    }

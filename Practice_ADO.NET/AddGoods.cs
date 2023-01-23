@@ -21,7 +21,19 @@ namespace Practice_ADO.NET
 
         private void AddGoods_Load(object sender, EventArgs e)
         {
-            tb_id.Text = _lastid.ToString();
+           tb_id.Text = _lastid.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

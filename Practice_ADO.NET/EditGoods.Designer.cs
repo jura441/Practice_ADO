@@ -38,8 +38,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_cancel = new System.Windows.Forms.Button();
+            this.btn_ok = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tb_count
@@ -122,23 +122,25 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "id";
             // 
-            // button2
+            // btn_cancel
             // 
-            this.button2.Location = new System.Drawing.Point(144, 219);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btn_cancel.Location = new System.Drawing.Point(144, 219);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
+            this.btn_cancel.TabIndex = 13;
+            this.btn_cancel.Text = "Cancel";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // button1
+            // btn_ok
             // 
-            this.button1.Location = new System.Drawing.Point(40, 219);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_ok.Location = new System.Drawing.Point(40, 219);
+            this.btn_ok.Name = "btn_ok";
+            this.btn_ok.Size = new System.Drawing.Size(75, 23);
+            this.btn_ok.TabIndex = 12;
+            this.btn_ok.Text = "OK";
+            this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.button1_Click);
             // 
             // EditGoods
             // 
@@ -155,8 +157,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btn_cancel);
+            this.Controls.Add(this.btn_ok);
             this.Name = "EditGoods";
             this.Text = "EditGoods";
             this.Load += new System.EventHandler(this.EditGoods_Load);
@@ -166,18 +168,17 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tb_count;
-        private System.Windows.Forms.TextBox tb_price;
-        private System.Windows.Forms.TextBox tb_cat_id;
-        private System.Windows.Forms.TextBox tb_name;
-        private System.Windows.Forms.TextBox tb_id;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.Button btn_ok;
+        public System.Windows.Forms.TextBox tb_count;
+        public System.Windows.Forms.TextBox tb_price;
+        public System.Windows.Forms.TextBox tb_cat_id;
+        public System.Windows.Forms.TextBox tb_name;
+        public System.Windows.Forms.TextBox tb_id;
     }
 }
