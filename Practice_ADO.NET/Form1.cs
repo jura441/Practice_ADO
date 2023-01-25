@@ -18,7 +18,9 @@ namespace Practice_ADO.NET
         SqlDataAdapter adapterCategory = null;
         SqlDataAdapter adapterGoods = null;
         SqlConnection connection = new SqlConnection();
+        SqlConnection connectionAsync = new SqlConnection();
         SqlCommandBuilder builder = null;
+        SqlCommandBuilder builder2 = null;
         SqlDataReader reader = null;
         DataSet dataSetGoods = new DataSet();
         DataSet dataSetCategory = new DataSet();
@@ -30,8 +32,63 @@ namespace Practice_ADO.NET
 
         }
 
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                connectionAsync.ConnectionString = ConfigurationManager.ConnectionStrings["MSSQL"].ConnectionString;
+                connectionAsync.ConnectionString += ";Asynchronous Processing=True";
+                await connectionAsync.OpenAsync();
+
+                SqlCommand sqlcomm = new SqlCommand("select * from Category", connectionAsync);
+                reader = await sqlcomm.ExecuteReaderAsync();
+                if (reader != null)
+                {
+                    int line = 0;
+                        do
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                if (line == 0)
+                                {
+                                    for (int i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        dataGridView1.Columns.Add(reader.GetName(i).ToString(), reader.GetName(i).ToString());
+                                    }
+                                }
+                                line++;
+                                dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString());
+                            }
+                        } while (await reader.NextResultAsync());
+                }
+            }
+
+            catch (Exception ex)
+            {
+                ts_status.Text = ex.Message;
+            }
+            finally
+            {
+                connectionAsync.Close();
+            }
+        }
+
         private void подключитьсяКБДToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (adapterCategory == null || adapterGoods == null)
+            {
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Clear();
+                dataGridView2.Rows.Clear();
+                dataGridView2.Columns.Clear();
+            }
+            else
+            {
+                adapterCategory = null;
+                adapterGoods = null;
+                dataSetCategory = new DataSet(); 
+                dataSetGoods = new DataSet();
+            }
             connection.ConnectionString = ConfigurationManager.ConnectionStrings["MSSQL"].ConnectionString;
             try
             {
@@ -55,10 +112,6 @@ namespace Practice_ADO.NET
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -146,11 +199,22 @@ namespace Practice_ADO.NET
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            builder = new SqlCommandBuilder(adapterCategory);
-            adapterCategory.DeleteCommand = builder.GetDeleteCommand();
-            adapterCategory.InsertCommand = builder.GetInsertCommand(); 
-            adapterCategory.UpdateCommand = builder.GetUpdateCommand();
-           adapterCategory.Update(dataSetCategory);
+            DialogResult dr = MessageBox.Show("Сохранить данные работы в бд?", "Обновление бд", MessageBoxButtons.OKCancel);
+            if (dr == DialogResult.OK && adapterGoods != null && adapterCategory != null)
+            {
+                builder = new SqlCommandBuilder(adapterCategory);
+                adapterCategory.DeleteCommand = builder.GetDeleteCommand();
+                adapterCategory.InsertCommand = builder.GetInsertCommand();
+                adapterCategory.UpdateCommand = builder.GetUpdateCommand();
+                adapterCategory.Update(dataSetCategory);
+
+                builder2 = new SqlCommandBuilder(adapterGoods);
+                adapterGoods.DeleteCommand = builder.GetDeleteCommand();
+                adapterGoods.InsertCommand = builder.GetInsertCommand();
+                adapterGoods.UpdateCommand = builder.GetUpdateCommand();
+                adapterGoods.Update(dataSetGoods);
+
+            }
         }
     }
 }
